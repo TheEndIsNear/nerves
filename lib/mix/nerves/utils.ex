@@ -1,4 +1,5 @@
 defmodule Mix.Nerves.Utils do
+  alias Nerves.Utils.WSL
 
   def shell(cmd, args, opts \\ []) do
     stream = opts[:stream] || IO.binstream(:standard_io, :line)
@@ -34,8 +35,8 @@ defmodule Mix.Nerves.Utils do
 
   def get_devs do
     {result, 0} =
-      if Nerves.Utils.WSL.running_on_wsl?() do
-        Nerves.Utils.WSL.get_fwup_devices()
+      if WSL.running_on_wsl?() do
+        WSL.get_fwup_devices()
       else
         System.cmd("fwup", ["--detect"])
       end
