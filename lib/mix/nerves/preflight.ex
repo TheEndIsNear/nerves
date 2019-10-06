@@ -3,13 +3,13 @@ defmodule Mix.Nerves.Preflight do
 
   def check! do
     {_, type} = :os.type()
-    check_requirements("fwup")
+    ensure_fwup_version!()
     ensure_available!("mksquashfs", package: "squashfs")
     check_host_requirements(type)
     Mix.Task.run("nerves.loadpaths")
   end
 
-  defp check_requirements("fwup") do
+  defp ensure_fwup_version! do
     ensure_available!("fwup")
 
     with {vsn, 0} <- System.cmd("fwup", ["--version"]),
